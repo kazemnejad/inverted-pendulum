@@ -1,0 +1,2 @@
+class OnExitException(Exception):
+    pass
