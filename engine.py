@@ -1,6 +1,6 @@
-from GUI import GUI
-from OnExitException import OnExitException
-from WorldModel import WorldModel
+from exception import OnExitException
+from gui import GUI
+from worldmodel import WorldModel
 
 
 class Engine(object):

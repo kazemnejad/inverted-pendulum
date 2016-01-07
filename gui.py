@@ -3,8 +3,8 @@ import pygame.locals
 import sys
 
 import config
-from KeyboardPlayer import KeyboardPlayer
-from OnExitException import OnExitException
+from exception import OnExitException
+from player import KeyboardPlayer
 
 
 class GUI:
@@ -16,7 +16,6 @@ class GUI:
         self.screen = pygame.display.set_mode((config.SCREEN_WIDTH, config.SCREEN_HEIGHT))
         pygame.display.set_caption(config.WINDOW_NAME)
         pygame.display.flip()
-
 
     def draw(self, wm):
         pass
