@@ -1,5 +1,14 @@
-PENDULUM = {"mass": 5}
-CART = {"mass": 7}
+PENDULUM = {
+    "mass": 5,
+    "length": 0.8,
+    "main_drawable": "drawable/pendulum.png",
+    "handle_drawable": "drawable/handle.png"
+}
+CART = {
+    "mass": 7,
+    "height": 0.4,
+    "drawable": "drawable/cart.png"
+}
 
 GRAVITY = 9.8
 
