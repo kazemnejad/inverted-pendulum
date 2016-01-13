@@ -13,3 +13,8 @@ class Pendulum:
         self.angle = 0.0
 
 
+class Cart:
+    def __init__(self):
+        self.mass = config.CART["mass"]
+        self.height = config.CART["height"]
+        self.pos = config.SPACE_WIDTH / 2
