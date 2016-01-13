@@ -5,13 +5,14 @@ from worldmodel import WorldModel
 
 class Engine(object):
     def __init__(self):
+        self.gui = GUI()
         self.wm = WorldModel()
-        self.gui = GUI(self.wm)
+        self.gui.set_world_model(self.wm)
         self.running = True
 
     def run(self):
         while True:
-            self.gui.draw(self.wm)
+            self.gui.draw()
 
             event = None
             try:

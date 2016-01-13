@@ -9,16 +9,19 @@ from player import KeyboardPlayer
 
 
 class GUI:
-    def __init__(self, wm):
+    def __init__(self):
         pygame.init()
 
-        self.wm = wm
+        self.wm = None
         self.player = KeyboardPlayer()
         self.screen = pygame.display.set_mode((config.SCREEN_WIDTH, config.SCREEN_HEIGHT))
         self.asphalt = (pygame.image.load(os.path.join("drawable/asphalt.png"))).convert()
         self.sky = (pygame.image.load(os.path.join("drawable/sky.png"))).convert()
 
         self.init_display()
+
+    def set_world_model(self, wm):
+        self.wm = wm
 
     def init_display(self):
         pygame.display.set_caption(config.WINDOW_NAME)
@@ -46,7 +49,7 @@ class GUI:
 
         pygame.display.flip()
 
-    def draw(self, wm):
+    def draw(self):
         pygame.display.update(self.daRect)
 
     def get_events(self):
