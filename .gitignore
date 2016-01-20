@@ -25,6 +25,7 @@ Sensitive or high-churn files:
 
 ## File-based project format:
 *.ipr
+/app.log
 *.iws
 
 ## Plugin-specific files:
