@@ -1,3 +1,5 @@
+import logging
+
 from exception import OnExitException
 from gui import GUI
 from worldmodel import WorldModel
@@ -5,6 +7,7 @@ from worldmodel import WorldModel
 
 class Engine(object):
     def __init__(self):
+        logging.basicConfig(filename='app.log',level=logging.DEBUG)
         self.gui = GUI()
         self.wm = WorldModel()
         self.gui.set_world_model(self.wm)
