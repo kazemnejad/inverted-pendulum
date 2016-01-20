@@ -8,3 +8,9 @@ class WorldModel:
 
     def update(self, event):
         pass
+
+    def get_pendulum(self):
+        return self.pendulum
+
+    def get_cart(self):
+        return self.cart
