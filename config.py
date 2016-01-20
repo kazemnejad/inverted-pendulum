@@ -2,11 +2,11 @@ PENDULUM = {
     "mass": 5,
     "length": 0.8,
     "main_drawable": "drawable/pendulum.png",
-    "handle_drawable": "drawable/handle.png"
+    "handle_drawable": "drawable/rod.png"
 }
 CART = {
     "mass": 7,
-    "height": 0.4,
+    "height": 0.56,
     "drawable": "drawable/cart.png"
 }
 
@@ -17,5 +17,5 @@ SCREEN_HEIGHT = 720
 WINDOW_NAME = "Inverted Pendulum"
 BACKGROUND_COLOR = (5, 187, 246)
 
-SPACE_WIDTH = 10.8
+SPACE_WIDTH = 10.76
 SPACE_HEIGHT = 7.2
