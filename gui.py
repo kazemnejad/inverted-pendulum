@@ -54,6 +54,7 @@ class GUI:
         pygame.display.flip()
 
     def draw(self):
+        self.clean_background()
         self.draw_cart_and_pendulum()
         pygame.display.update(self.daRect)
 
@@ -93,6 +94,9 @@ class GUI:
                 raise OnExitException()
 
         return self.player.get_next_move(self.wm)
+
+    def clean_background(self):
+        self.screen.blit(self.drawnArea, (self.daX, self.daY))
 
     def close(self):
         pygame.quit()
