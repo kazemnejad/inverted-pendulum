@@ -1,5 +1,5 @@
 PENDULUM = {
-    "mass": 5,
+    "mass": 0.1,
     "length": 0.8,
     "main_drawable": "drawable/pendulum.png",
     "handle_drawable": "drawable/rod.png"

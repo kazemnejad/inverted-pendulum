@@ -11,6 +11,7 @@ class Pendulum:
         self.main_drawable = (pygame.image.load(os.path.join(config.PENDULUM["main_drawable"]))).convert()
         self.rod_drawable = (pygame.image.load(os.path.join(config.PENDULUM["handle_drawable"]))).convert()
         self.angle = 0
+        self.w = 0
 
 
 class Cart:
