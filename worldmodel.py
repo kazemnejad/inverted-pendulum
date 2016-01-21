@@ -26,7 +26,8 @@ class WorldModel:
                 if self.cart.velocity > 0 :
                     self.cart.velocity =0
             self.cart.pos+=self.cart.velocity *config.Time
-
+            if self.cart.pos > config.SCREEN_WIDTH or self.cart.pos < 0:
+                self.cart.velocity =0
         if event==EventType.E_RIGHT:
             if self.cart.velocity == 0:
                 if config.F_MOVEMENT > F_smax :
@@ -45,6 +46,8 @@ class WorldModel:
                 if self.cart.velocity > 0 :
                     self.cart.velocity=0
             self.cart.pos+=self.cart.velocity *config.Time
+            if self.cart.pos > config.SCREEN_WIDTH or self.cart.pos < 0:
+                self.cart.velocity =0
         if event==EventType.E_LEFT:
             if self.cart.velocity ==0:
                 if config.F_MOVEMENT >F_smax :
@@ -63,7 +66,8 @@ class WorldModel:
                 if self.cart.velocity > 0 :
                     self.cart.velocity=0
             self.cart.pos+=self.cart.velocity *config.Time
-
+            if self.cart.pos > config.SCREEN_WIDTH or self.cart.pos < 0:
+                self.cart.velocity =0
 
     def get_pendulum(self):
         return self.pendulum
