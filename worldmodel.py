@@ -79,7 +79,7 @@ class WorldModel:
                 self.cart.velocity =0
                 self.cart.pos =0
         dy=0.5 *config.GRAVITY*(config.Time**2)
-        dx=0.5 *a*(config.Time**2)+self.cart.velocity*config.Time
+        dx=0.5 *a*(config.Time**2)
         self.pendulum.angle=math.degrees(math.atan(dx / dy))
     def get_pendulum(self):
         return self.pendulum
