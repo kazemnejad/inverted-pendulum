@@ -19,3 +19,4 @@ class Cart:
         self.height = config.CART["height"]
         self.drawable = (pygame.image.load(os.path.join(config.CART["drawable"]))).convert()
         self.pos = config.SPACE_WIDTH / 2
+        self.velocity=0
