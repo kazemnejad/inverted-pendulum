@@ -2,6 +2,8 @@
 
 ## Directory-based project format:
 # if you remove the above rule, at least ignore the following:
+learned_data/ld.pkl.back*
+
 
 # User-specific stuff:
 .idea/workspace.xml
