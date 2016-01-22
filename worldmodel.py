@@ -78,9 +78,37 @@ class WorldModel:
             if self.cart.pos < 0 :
                 self.cart.velocity =0
                 self.cart.pos =0
-        a=a*math.cos(math.radians(self.pendulum.angle))+config.GRAVITY*math.sin(math.radians(self.pendulum.angle))
-        self.pendulum.w+=a*config.Time
+        F_air=config.U_air * math.fabs(self.pendulum.w) *self.pendulum.length
+        alpha_air=F_air / self.pendulum.mass
+        w_air=alpha_air *config.Time
+        alpha=0
+        teta=math.fabs(math.radians(self.pendulum.angle))
+        if a>0:
+            if self.pendulum.angle >=0:
+                alpha=config.GRAVITY*self.pendulum.mass*math.sin(teta)+self.pendulum.mass*a*math.cos(teta)
+            if self.pendulum.angle <0:
+                alpha=self.pendulum.mass*a*math.cos(teta)-config.GRAVITY*self.pendulum.mass*math.sin(teta)
+        if a<0:
+            a*=-1
+            if self.pendulum.angle >=0:
+                alpha=config.GRAVITY*self.pendulum.mass*math.sin(teta)-self.pendulum.mass*a*math.cos(teta)
+            if self.pendulum.angle <0:
+                alpha=-config.GRAVITY*self.pendulum.mass*math.sin(teta)-self.pendulum.mass*a*math.cos(teta)
+
+        if self.pendulum.w>0 :
+            self.pendulum.w+=alpha*config.Time -w_air
+        if self.pendulum.w<0 :
+            self.pendulum.w+=alpha*config.Time +w_air
+        if self.pendulum.w==0 :
+            self.pendulum.w=alpha*config.Time
+
         self.pendulum.angle+=math.degrees(self.pendulum.w*config.Time)
+        if self.pendulum.angle > 90  :
+                self.pendulum.w=0
+                self.pendulum.angle=90
+        if self.pendulum.angle < -90 :
+            self.pendulum.w=0
+            self.pendulum.angle=-90
         """
         alpha = 3 / 2 * (G * math.sin(math.radians(self.pendulum.angle)) + a * math.cos(math.radians(self.pendulum.angle))) / 1
         dw = alpha * config.Time

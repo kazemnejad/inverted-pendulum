@@ -23,3 +23,4 @@ F_MOVEMENT=90
 U_S=0.5
 U_K=0.5
 Time=0.001
+U_air=0.1
