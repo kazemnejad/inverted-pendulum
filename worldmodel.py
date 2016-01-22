@@ -81,6 +81,7 @@ class WorldModel:
         F_air=config.U_air * math.fabs(self.pendulum.w) *self.pendulum.length
         alpha_air=F_air / self.pendulum.mass
         w_air=alpha_air *config.Time
+        '''
         alpha=0
         teta=math.fabs(math.radians(self.pendulum.angle))
         if a>0:
@@ -103,18 +104,17 @@ class WorldModel:
             self.pendulum.w=alpha*config.Time
 
         self.pendulum.angle+=math.degrees(self.pendulum.w*config.Time)
-        if self.pendulum.angle > 90  :
-                self.pendulum.w=0
-                self.pendulum.angle=90
-        if self.pendulum.angle < -90 :
-            self.pendulum.w=0
-            self.pendulum.angle=-90
-        """
+'''
         alpha = 3 / 2 * (G * math.sin(math.radians(self.pendulum.angle)) + a * math.cos(math.radians(self.pendulum.angle))) / 1
         dw = alpha * config.Time
         dAngle = 0.5 * alpha * config.Time ** 2 + self.pendulum.w * config.Time
-        self.pendulum.w += dw
-        self.pendulum.angle += math.degrees(dAngle)"""
+        if self.pendulum.w >0 :
+            self.pendulum.w += dw -w_air
+        if self.pendulum.w <0 :
+            self.pendulum.w += dw +w_air
+        if self.pendulum.w ==0 :
+            self.pendulum.w =dw
+        self.pendulum.angle += math.degrees(dAngle)
     def get_pendulum(self):
         return self.pendulum
 
