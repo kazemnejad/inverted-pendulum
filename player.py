@@ -1,9 +1,10 @@
 import pygame
-import pygame.event
 import pygame.locals
 from abc import ABCMeta, abstractmethod
 
-from eventtype import EventType
+import pygame.event
+
+from actiontype import ActionType
 
 
 class Player(object):
@@ -27,13 +28,13 @@ class AIPlayer(Player):
 
 class KeyboardPlayer(Player):
     def __init__(self):
-        self.currentEvent = EventType.E_None
+        self.currentEvent = ActionType.ACT_NONE
 
     def get_next_move(self, wm):
         keys = pygame.key.get_pressed()
         if keys[pygame.K_LEFT]:
-            return EventType.E_LEFT
+            return ActionType.ACT_LEFT
         if keys[pygame.K_RIGHT]:
-            return EventType.E_RIGHT
+            return ActionType.ACT_RIGHT
 
-        return EventType.E_None
+        return ActionType.ACT_NONE

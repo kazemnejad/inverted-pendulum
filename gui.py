@@ -88,7 +88,7 @@ class GUI:
         self.screen.blit(pendulum.main_drawable, (pendulumX, pendulumY))
         self.screen.blit(cart.drawable, (cartX, cartY))
 
-    def get_events(self):
+    def get_action(self):
         for event in pygame.event.get():
             if event.type == pygame.locals.QUIT:
                 raise OnExitException()
