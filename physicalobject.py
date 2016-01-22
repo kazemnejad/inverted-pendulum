@@ -8,16 +8,25 @@ class Pendulum:
     def __init__(self):
         self.mass = config.PENDULUM["mass"]
         self.length = config.PENDULUM["length"]
-        self.main_drawable = (pygame.image.load(os.path.join(config.PENDULUM["main_drawable"]))).convert()
-        self.rod_drawable = (pygame.image.load(os.path.join(config.PENDULUM["handle_drawable"]))).convert()
-        self.angle = 0
-        self.w=0
+        try:
+            self.main_drawable = (pygame.image.load(os.path.join(config.PENDULUM["main_drawable"]))).convert()
+            self.rod_drawable = (pygame.image.load(os.path.join(config.PENDULUM["handle_drawable"]))).convert()
+        except Exception:
+            self.main_drawable = None
+            self.rod_drawable = None
+
+        self.angle = 0.0
+        self.w = 0.0
 
 
 class Cart:
     def __init__(self):
         self.mass = config.CART["mass"]
         self.height = config.CART["height"]
-        self.drawable = (pygame.image.load(os.path.join(config.CART["drawable"]))).convert()
-        self.pos =  config.SPACE_WIDTH / 2
-        self.velocity=0
+        try:
+            self.drawable = (pygame.image.load(os.path.join(config.CART["drawable"]))).convert()
+        except Exception:
+            self.drawable = None
+
+        self.pos = config.SPACE_WIDTH / 2
+        self.velocity = 0
