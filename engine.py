@@ -1,3 +1,4 @@
+import logging
 import os
 import pickle
 import random
@@ -148,9 +149,11 @@ class LearningEngine:
     def is_episode_finished(self):
         state = self.wm.get_current_state()
         positiveAngle = self.get_positive_angle(state.angle)
-        if positiveAngle < 0.25 and abs(state.w) < 0.05 and abs(state.vel) < 0.15:
+        if positiveAngle < 5 and abs(state.w) < 1 and abs(state.vel) < 1:
             self.num_of_success_repeat += 1
             if self.num_of_success_repeat >= config.SUCCESS_REPEATS:
+                logging.debug("Suscces")
+                logging.debug("p: " + str(positiveAngle) + " w:" + str(abs(state.w)) + " vel: " + str(state.vel) + "np: " + str(self.num_of_success_repeat))
                 return True
         else:
             self.num_of_success_repeat = 0
@@ -158,6 +161,8 @@ class LearningEngine:
         if 170 < positiveAngle < 180:
             self.num_of_pointless_tries += 1
             if self.num_of_pointless_tries >= config.POINTLESS_REPEATS:
+                logging.debug("pointless")
+                logging.debug("p: " + str(positiveAngle) + " w:" + str(abs(state.w)) + " vel: " + str(state.vel) + "np: " + str(self.num_of_pointless_tries))
                 return True
         else:
             self.num_of_pointless_tries = 0
@@ -166,6 +171,8 @@ class LearningEngine:
         if minDistanceFromWall < 0.01:
             self.num_of_is_near_wall += 1
             if self.num_of_is_near_wall >= config.NEAR_WALL_REPEATS:
+                logging.debug("fails")
+                logging.debug("p: " + str(positiveAngle) + " w:" + str(abs(state.w)) + " vel: " + str(state.vel) + "minDis: " + str(minDistanceFromWall) +"np: " + str(self.num_of_is_near_wall))
                 return True
         else:
             self.num_of_is_near_wall = 0
@@ -174,25 +181,16 @@ class LearningEngine:
 
     def get_valid_actions(self, action=None):
         currentState = self.wm.get_current_state() if action is None else self.wm.compute_next_state(action)
-        if currentState.pos < 0.05:
+        if currentState.pos < 0.1:
             return [ActionType.ACT_NONE, ActionType.ACT_RIGHT]
-        elif config.SPACE_WIDTH - currentState.pos < 0.05:
+        elif config.SPACE_WIDTH - currentState.pos < 0.1:
             return [ActionType.ACT_NONE, ActionType.ACT_LEFT]
 
         return [ActionType.ACT_NONE, ActionType.ACT_RIGHT, ActionType.ACT_LEFT]
 
     def get_positive_angle(self, angle):
-        positiveAngle = 0
-        if angle < 0:
-            if -180 <= angle:
-                positiveAngle = abs(angle)
-            else:
-                positiveAngle = 360 - abs(angle)
-        elif angle > 0:
-            if angle <= 180:
-                positiveAngle = angle
-            else:
-                positiveAngle = 360 - angle
+        angle = abs(angle) % 360
+        positiveAngle = angle if angle <= 180 else 360 - angle
 
         return positiveAngle
 
