@@ -64,6 +64,7 @@ class WorldModel:
             if cart_pos > config.SPACE_WIDTH:
                 cart_velocity = 0
                 cart_pos = config.SPACE_WIDTH
+
             if cart_pos < 0:
                 cart_velocity = 0
                 cart_pos = 0
@@ -87,10 +88,11 @@ class WorldModel:
             if cart_pos > config.SPACE_WIDTH:
                 cart_velocity = 0
                 cart_pos = config.SPACE_WIDTH
+                a=0
             if cart_pos < 0:
                 cart_velocity = 0
                 cart_pos = 0
-
+                a=0
         if action == ActionType.ACT_LEFT:
             if cart_velocity == 0:
                 if config.F_MOVEMENT > F_smax:
@@ -110,10 +112,11 @@ class WorldModel:
             if cart_pos > config.SPACE_WIDTH:
                 cart_velocity = 0
                 cart_pos = config.SPACE_WIDTH
+                a=0
             if cart_pos < 0:
                 cart_velocity = 0
                 cart_pos = 0
-
+                a=0
         F_air = config.U_air * math.fabs(pendulum_w) * self.pendulum.length
         alpha_air = F_air / self.pendulum.mass
         w_air = alpha_air * config.Time
