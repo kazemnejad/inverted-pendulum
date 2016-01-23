@@ -182,9 +182,9 @@ class LearningEngine:
 
     def get_valid_actions(self, action=None):
         currentState = self.wm.get_current_state() if action is None else self.wm.compute_next_state(action)
-        if currentState.pos < 0.1:
+        if currentState.pos < 0.5:
             return [ActionType.ACT_NONE, ActionType.ACT_RIGHT]
-        elif config.SPACE_WIDTH - currentState.pos < 0.1:
+        elif config.SPACE_WIDTH - currentState.pos < 0.5:
             return [ActionType.ACT_NONE, ActionType.ACT_LEFT]
 
         return [ActionType.ACT_NONE, ActionType.ACT_RIGHT, ActionType.ACT_LEFT]
@@ -211,8 +211,8 @@ class LearningEngine:
         print "rewarded:", reward
         print "updating Q for [ (" + str(currentState.angle) + "," + str(currentState.pos) + "), " + str(
                 action) + " ] =", q
-        print "exploration percent:", str(len(self.Q) / (120 * 11.0 * 3) * 100), "( " + str(len(self.Q)) + "/" + str(
-                120 * 11 * 3) + ")"
+        print "exploration percent:", str(len(self.Q) / (120 * 11.0) * 100), "( " + str(len(self.Q)) + "/" + str(
+                120 * 11) + ")"
         print '\n'
 
     def log_ending_episode(self, episodeNum):
