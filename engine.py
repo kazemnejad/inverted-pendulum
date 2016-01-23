@@ -94,7 +94,7 @@ class LearningEngine:
         positiveAngle = self.get_positive_angle(state.angle)
         minDistanceFromWall = min(state.pos, config.SPACE_WIDTH - state.pos)
 
-        reward = (180 - positiveAngle) + 1.0 / 4.0 * minDistanceFromWall
+        reward = (180 - positiveAngle) +  minDistanceFromWall
         return reward
 
     def is_episode_finished(self):
