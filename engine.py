@@ -31,21 +31,20 @@ class Engine(object):
 
 
 class LeaningEngine:
-    def __init__(self, episodeNum):
+    def __init__(self, episodeNum, enableGui=False):
         self.episode_num = episodeNum
-        self.gui = GUI()
+        self.is_gui_enable = enableGui
+        if self.is_gui_enable:
+            self.gui = GUI()
         self.wm = WorldModel()
-        self.gui.set_world_model(self.wm)
+        if self.is_gui_enable:
+            self.gui.set_world_model(self.wm)
 
         self.Q = {}
         self.num_of_is_near_wall = 0
         self.num_of_success_repeat = 0
 
         self.load_learned_data()
-
-        # for key in self.Q.keys():
-        #     print "(" +str(key[0].angle * config.DEGREE_STEP) + ", " + str(key[0].pos) + ") action: " + str(key[1]) + " : "
-        #     # print self.Q.keys()
 
     def run(self):
         for i in range(self.episode_num):
@@ -55,7 +54,9 @@ class LeaningEngine:
             self.wm.reset_with_random_state()
 
             while True:
-                self.gui.draw()
+                if self.is_gui_enable:
+                    self.gui.draw()
+
                 # get current world state
                 currentState = self.wm.get_current_state().get_discrete_state()
 
@@ -130,6 +131,10 @@ class LeaningEngine:
 
         return positiveAngle
 
+    def show(self):
+        for key in self.Q.keys():
+            print "(" + str(key[0].angle * config.DEGREE_STEP) + ", " + str(key[0].pos) + ") action: " + str(key[1])
+
     def log_start_episode(self, episodeNum):
         print "\nStart Learning new episode(" + str(episodeNum) + "/" + str(self.episode_num) + ")"
 
@@ -141,7 +146,7 @@ class LeaningEngine:
         print "updating Q for [ (" + str(currentState.angle) + "," + str(currentState.pos) + "), " + str(
                 action) + " ] =", q
         print "exploration percent:", str(len(self.Q) / (120 * 10.0 * 3) * 100), "( " + str(len(self.Q)) + "/" + str(
-            120 * 10 * 3) + ")"
+                120 * 10 * 3) + ")"
         print '\n'
 
     def log_ending_episode(self, episodeNum):

@@ -17,6 +17,12 @@ def get_args():
     parser.add_argument(
             '-c', '--clean-learning-data', help='backup current learned data and create new one',
             required=False, action='store_true')
+    parser.add_argument(
+            '-s', '--show-learning-data', help='backup current learned data and create new one',
+            required=False, action='store_true')
+    parser.add_argument(
+            '-g', '--enable-gui', help='backup current learned data and create new one',
+            required=False, action='store_true', default=False)
 
     return parser.parse_args()
 
@@ -42,8 +48,11 @@ if __name__ == "__main__":
         reset_learned_data()
 
     if args.learning:
-        engine = LeaningEngine(episodeNum=args.episode_num)
+        engine = LeaningEngine(episodeNum=args.episode_num, enableGui=args.enable_gui)
     else:
         engine = Engine()
 
-    engine.run()
+    if args.learning and args.show_learning_data:
+        engine.show()
+    else:
+        engine.run()
