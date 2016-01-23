@@ -74,16 +74,17 @@ class GUI:
         cartY = screenY - self.asphalt.get_size()[1] - cart.drawable.get_size()[1]
 
         # calculate rod position
-        rodX = cart.pos * self.kX - pendulum.rod_drawable.get_size()[0] / 2
-        rodY = cartY - pendulum.rod_drawable.get_size()[1] + 1
+        #rodX = cart.pos * self.kX - pendulum.rod_drawable.get_size()[0] / 2
+        #rodY = cartY - pendulum.rod_drawable.get_size()[1] + 1
 
         angle = radians(pendulum.angle); cosp = cos(angle); sinp = sin(angle)
+        '''
         cx = pendulum.rod_drawable.get_size()[0] / 2
         cy = pendulum.rod_drawable.get_size()[1] / 2
 
         rotatedRodX = rodX + cx - cx * cosp - cy * sinp + min(cosp, 0) * cx * 2 + min(sinp, 0) * cy * 2 - cy * sinp
         rotatedRodY = rodY + cy * 2 * (1 - cosp)
-
+'''
         # calculate pendulum position
 
         poviotX=cart.pos*self.kX
