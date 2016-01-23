@@ -8,7 +8,7 @@ PENDULUM = {
     "mass": 1,
     "length": 0.8,
     "main_drawable": "drawable/pendulum.png",
-    "handle_drawable": "drawable/rod.png"
+    "handle_drawable": "drawable/kirekhar.png"
 }
 CART = {
     "mass": 50,
@@ -21,6 +21,7 @@ SCREEN_HEIGHT = 720
 DEGREE_STEP = 3
 WINDOW_NAME = "Inverted Pendulum"
 BACKGROUND_COLOR = (5, 187, 246)
+ROD_COLOR = (108, 0, 255)
 DEFAULT_Q = 0
 
 Q_GAMMA = 0.9
