@@ -43,6 +43,7 @@ class LeaningEngine:
         self.Q = {}
         self.num_of_is_near_wall = 0
         self.num_of_success_repeat = 0
+        self.num_of_pointless_tries = 0
 
         self.load_learned_data()
 
@@ -76,7 +77,7 @@ class LeaningEngine:
                 q = self.Q.get((currentState, randomAction), config.DEFAULT_Q)
                 self.Q[(currentState, randomAction)] = q + config.Q_ALPHA * (reward + config.Q_GAMMA * maxQ - q)
 
-                self.log_saving_new_q_value(currentState, randomAction, reward, self.Q[(currentState, randomAction)],
+                self.log_saving_new_q_value(i+1, currentState, randomAction, reward, self.Q[(currentState, randomAction)],
                                             nextState)
 
                 # update the world with next state
@@ -99,12 +100,19 @@ class LeaningEngine:
     def is_episode_finished(self):
         state = self.wm.get_current_state()
         positiveAngle = self.get_positive_angle(state.angle)
-        if positiveAngle < 0.5 and abs(state.w) < 0.05 and abs(state.vel) < 0.15:
+        if positiveAngle < 0.25 and abs(state.w) < 0.05 and abs(state.vel) < 0.15:
             self.num_of_success_repeat += 1
             if self.num_of_success_repeat >= config.SUCCESS_REPEATS:
                 return True
         else:
             self.num_of_success_repeat = 0
+
+        if 170 < positiveAngle < 180:
+            self.num_of_pointless_tries += 1
+            if self.num_of_pointless_tries >= config.POINTLESS_REPEATS:
+                return True
+        else:
+            self.num_of_pointless_tries = 0
 
         minDistanceFromWall = min(state.pos, config.SPACE_WIDTH - state.pos)
         if minDistanceFromWall < 0.01:
@@ -138,15 +146,16 @@ class LeaningEngine:
     def log_start_episode(self, episodeNum):
         print "\nStart Learning new episode(" + str(episodeNum) + "/" + str(self.episode_num) + ")"
 
-    def log_saving_new_q_value(self, currentState, action, reward, q, newState):
+    def log_saving_new_q_value(self, episodeNum, currentState, action, reward, q, newState):
+        print "Episode: " + str(episodeNum) + "/" + str(self.episode_num)
         print "current state:", currentState
         print "did action:", action
         print "entered state:", newState
         print "rewarded:", reward
         print "updating Q for [ (" + str(currentState.angle) + "," + str(currentState.pos) + "), " + str(
                 action) + " ] =", q
-        print "exploration percent:", str(len(self.Q) / (120 * 10.0 * 3) * 100), "( " + str(len(self.Q)) + "/" + str(
-                120 * 10 * 3) + ")"
+        print "exploration percent:", str(len(self.Q) / (120 * 11.0 * 3) * 100), "( " + str(len(self.Q)) + "/" + str(
+                120 * 11 * 3) + ")"
         print '\n'
 
     def log_ending_episode(self, episodeNum):
