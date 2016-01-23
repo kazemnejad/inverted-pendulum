@@ -33,11 +33,19 @@ class Engine(object):
 class LeaningEngine:
     def __init__(self, episodeNum):
         self.episode_num = episodeNum
+        self.gui = GUI()
         self.wm = WorldModel()
+        self.gui.set_world_model(self.wm)
+
         self.Q = {}
         self.num_of_is_near_wall = 0
+        self.num_of_success_repeat = 0
 
         self.load_learned_data()
+
+        # for key in self.Q.keys():
+        #     print "(" +str(key[0].angle * config.DEGREE_STEP) + ", " + str(key[0].pos) + ") action: " + str(key[1]) + " : "
+        #     # print self.Q.keys()
 
     def run(self):
         for i in range(self.episode_num):
@@ -47,6 +55,7 @@ class LeaningEngine:
             self.wm.reset_with_random_state()
 
             while True:
+                self.gui.draw()
                 # get current world state
                 currentState = self.wm.get_current_state().get_discrete_state()
 
@@ -66,7 +75,8 @@ class LeaningEngine:
                 q = self.Q.get((currentState, randomAction), config.DEFAULT_Q)
                 self.Q[(currentState, randomAction)] = q + config.Q_ALPHA * (reward + config.Q_GAMMA * maxQ - q)
 
-                self.log_saving_new_q_value(currentState, randomAction, reward, self.Q[(currentState, randomAction)], nextState)
+                self.log_saving_new_q_value(currentState, randomAction, reward, self.Q[(currentState, randomAction)],
+                                            nextState)
 
                 # update the world with next state
                 self.wm.update(randomAction)
@@ -75,8 +85,7 @@ class LeaningEngine:
                     break
 
             self.log_ending_episode(i + 1)
-
-        self.save_learned_data()
+            self.save_learned_data()
 
     def calculate_reward(self):
         state = self.wm.get_current_state()
@@ -90,12 +99,16 @@ class LeaningEngine:
         state = self.wm.get_current_state()
         positiveAngle = self.get_positive_angle(state.angle)
         if positiveAngle < 0.5 and abs(state.w) < 0.05 and abs(state.vel) < 0.15:
-            return True
+            self.num_of_success_repeat += 1
+            if self.num_of_success_repeat >= config.SUCCESS_REPEATS:
+                return True
+        else:
+            self.num_of_success_repeat = 0
 
         minDistanceFromWall = min(state.pos, config.SPACE_WIDTH - state.pos)
         if minDistanceFromWall < 0.01:
             self.num_of_is_near_wall += 1
-            if self.num_of_is_near_wall >= 16:
+            if self.num_of_is_near_wall >= config.NEAR_WALL_REPEATS:
                 return True
         else:
             self.num_of_is_near_wall = 0
@@ -127,6 +140,8 @@ class LeaningEngine:
         print "rewarded:", reward
         print "updating Q for [ (" + str(currentState.angle) + "," + str(currentState.pos) + "), " + str(
                 action) + " ] =", q
+        print "exploration percent:", str(len(self.Q) / (120 * 10.0 * 3) * 100), "( " + str(len(self.Q)) + "/" + str(
+            120 * 10 * 3) + ")"
         print '\n'
 
     def log_ending_episode(self, episodeNum):

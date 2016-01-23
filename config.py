@@ -11,7 +11,7 @@ PENDULUM = {
     "handle_drawable": "drawable/rod.png"
 }
 CART = {
-    "mass": 7,
+    "mass": 50,
     "height": 0.56,
     "drawable": "drawable/cart.png"
 }
@@ -25,12 +25,14 @@ DEFAULT_Q = 0
 
 Q_GAMMA = 0.9
 Q_ALPHA = 0.5
+NEAR_WALL_REPEATS = 30
+SUCCESS_REPEATS = 5
 
 SPACE_WIDTH = 10.76
 SPACE_HEIGHT = 7.2
 
 GRAVITY = 9.8
-F_MOVEMENT = 90
+F_MOVEMENT = 2000
 U_S = 0.5
 U_K = 0.3
 Time = 0.001
