@@ -33,10 +33,11 @@ class AIPlayer(Player):
         currentState = self.wm.get_current_state().get_discrete_state()
 
         # get best action for this state
+        maxi = -99999
         bestAction = ActionType.ACT_NONE
-        maxi = -9999999
-        for action in ActionType.ALL_ACTIONS:
-            q = self.Q.get((currentState, action), config.DEFAULT_Q)
+        stateActions = self.Q.get(currentState, {})
+        for action in stateActions:
+            q = stateActions.get(action, config.DEFAULT_Q)
             if q >= maxi:
                 maxi = q
                 bestAction = action
