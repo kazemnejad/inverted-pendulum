@@ -12,6 +12,8 @@ class WorldModel:
         self.pendulum = Pendulum()
         self.cart = Cart()
 
+        self.reset_with_random_state()
+
     def update(self, action):
         # calculate next state
         nextState = self.compute_next_state(action)

@@ -6,15 +6,18 @@ from math import sin, cos, radians
 
 import config
 from exception import OnExitException
-from player import KeyboardPlayer
+from player import KeyboardPlayer, AIPlayer
 
 
 class GUI:
-    def __init__(self):
+    def __init__(self, enableAiPlayer):
         pygame.init()
 
+        self.is_ai_player = enableAiPlayer
         self.wm = None
-        self.player = KeyboardPlayer()
+        if not self.is_ai_player:
+            self.player = KeyboardPlayer()
+
         self.screen = pygame.display.set_mode((config.SCREEN_WIDTH, config.SCREEN_HEIGHT))
         self.asphalt = (pygame.image.load(os.path.join("drawable/asphalt.png"))).convert()
         self.sky = (pygame.image.load(os.path.join("drawable/sky.png"))).convert()
@@ -26,6 +29,8 @@ class GUI:
 
     def set_world_model(self, wm):
         self.wm = wm
+        if self.is_ai_player:
+            self.player = AIPlayer(self.wm)
 
     def init_display(self):
         pygame.display.set_caption(config.WINDOW_NAME)
@@ -93,7 +98,7 @@ class GUI:
             if event.type == pygame.locals.QUIT:
                 raise OnExitException()
 
-        return self.player.get_next_move(self.wm)
+        return self.player.get_next_move()
 
     def clean_background(self):
         self.screen.blit(self.drawnArea, (self.daX, self.daY))

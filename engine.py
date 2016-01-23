@@ -10,8 +10,8 @@ from worldmodel import WorldModel
 
 
 class Engine(object):
-    def __init__(self):
-        self.gui = GUI()
+    def __init__(self, enableAiPlayer):
+        self.gui = GUI(enableAiPlayer=enableAiPlayer)
         self.wm = WorldModel()
         self.gui.set_world_model(self.wm)
         self.running = True
@@ -30,7 +30,7 @@ class Engine(object):
             self.wm.update(action)
 
 
-class LeaningEngine:
+class LearningEngine:
     def __init__(self, episodeNum, enableGui=False):
         self.episode_num = episodeNum
         self.is_gui_enable = enableGui
@@ -141,7 +141,7 @@ class LeaningEngine:
 
     def show(self):
         for key in self.Q.keys():
-            print "(" + str(key[0].angle * config.DEGREE_STEP) + ", " + str(key[0].pos) + ") action: " + str(key[1])
+            print "(" + str(key[0].angle * config.DEGREE_STEP) + ", " + str(key[0].pos) + ") action: " + str(key[1]) + " --- Q: " + str(self.Q[key])
 
     def log_start_episode(self, episodeNum):
         print "\nStart Learning new episode(" + str(episodeNum) + "/" + str(self.episode_num) + ")"

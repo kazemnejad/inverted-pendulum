@@ -48,9 +48,9 @@ if __name__ == "__main__":
         reset_learned_data()
 
     if args.learning:
-        engine = LeaningEngine(episodeNum=args.episode_num, enableGui=args.enable_gui)
+        engine = LearningEngine(episodeNum=args.episode_num, enableGui=args.enable_gui)
     else:
-        engine = Engine()
+        engine = Engine(enableAiPlayer=args.ai_player)
 
     if args.learning and args.show_learning_data:
         engine.show()
