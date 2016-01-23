@@ -143,13 +143,14 @@ class LearningEngine:
         positiveAngle = self.get_positive_angle(state.angle)
         minDistanceFromWall = min(state.pos, config.SPACE_WIDTH - state.pos)
 
-        reward = (180 - positiveAngle) +  minDistanceFromWall
+        angleReward = (1.5 if positiveAngle < 45.0 else 1) * (180 - positiveAngle)
+        reward = angleReward + 2 * minDistanceFromWall
         return reward
 
     def is_episode_finished(self):
         state = self.wm.get_current_state()
         positiveAngle = self.get_positive_angle(state.angle)
-        if positiveAngle < 5 and abs(state.w) < 1 and abs(state.vel) < 1:
+        if positiveAngle < 5:
             self.num_of_success_repeat += 1
             if self.num_of_success_repeat >= config.SUCCESS_REPEATS:
                 logging.debug("Suscces")
