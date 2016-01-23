@@ -10,7 +10,13 @@ class State:
 
     def get_discrete_state(self):
         pos = int(self.pos)
-        angle = self.angle if self.angle > 0 else 360 - abs(self.angle)
+
+        angle = self.angle
+        if self.angle >= 360:
+            angle = self.angle % 360
+        if self.angle <= -360:
+            angle = self.angle % -360
+        angle = angle if angle >= 0 else 360 - abs(angle)
 
         return State(angle // config.DEGREE_STEP, pos)
 
