@@ -35,7 +35,7 @@ class LearningEngine:
         self.episode_num = episodeNum
         self.is_gui_enable = enableGui
         if self.is_gui_enable:
-            self.gui = GUI()
+            self.gui = GUI(enableGui)
         self.wm = WorldModel()
         if self.is_gui_enable:
             self.gui.set_world_model(self.wm)
@@ -48,6 +48,53 @@ class LearningEngine:
         self.load_learned_data()
 
     def run(self):
+        for i in range(self.episode_num):
+            self.log_start_episode(i + 1)
+
+            # init with random state
+            self.wm.reset_with_random_state()
+
+            while True:
+                if self.is_gui_enable:
+                    self.gui.draw()
+
+                # get current world state
+                currentState = self.wm.get_current_state().get_discrete_state()
+
+                # select a random action
+                valid_actions = self.get_valid_actions()
+                randomAction = random.choice(valid_actions)
+
+                # compute next world state but not updating it
+                nextState = self.wm.compute_next_state(randomAction).get_discrete_state()
+
+                # calculated reward base on current state
+                reward = self.calculate_reward()
+
+                # get max of Q for the next state and all possible action
+                nextValidActions = self.get_valid_actions(randomAction)
+                maxQ = max([self.Q.get((nextState), {}).get(action, config.DEFAULT_Q) for action in nextValidActions])
+
+                # calculate q for current state
+                if not currentState in self.Q:
+                    self.Q[currentState] = {}
+                q = self.Q[currentState].get(randomAction, config.DEFAULT_Q)
+                self.Q[currentState][randomAction] = q + config.Q_ALPHA * (reward + config.Q_GAMMA * maxQ - q)
+
+                self.log_saving_new_q_value(i + 1, currentState, randomAction, reward,
+                                            self.Q[currentState][randomAction],
+                                            nextState)
+
+                # update the world with next state
+                self.wm.update(randomAction)
+
+                if self.is_episode_finished():
+                    break
+
+            self.log_ending_episode(i + 1)
+            self.save_learned_data()
+
+    def run1(self):
         for i in range(self.episode_num):
             self.log_start_episode(i + 1)
 
@@ -77,7 +124,8 @@ class LearningEngine:
                 q = self.Q.get((currentState, randomAction), config.DEFAULT_Q)
                 self.Q[(currentState, randomAction)] = q + config.Q_ALPHA * (reward + config.Q_GAMMA * maxQ - q)
 
-                self.log_saving_new_q_value(i+1, currentState, randomAction, reward, self.Q[(currentState, randomAction)],
+                self.log_saving_new_q_value(i + 1, currentState, randomAction, reward,
+                                            self.Q[(currentState, randomAction)],
                                             nextState)
 
                 # update the world with next state
@@ -124,6 +172,15 @@ class LearningEngine:
 
         return False
 
+    def get_valid_actions(self, action=None):
+        currentState = self.wm.get_current_state() if action is None else self.wm.compute_next_state(action)
+        if currentState.pos < 0.05:
+            return [ActionType.ACT_NONE, ActionType.ACT_RIGHT]
+        elif config.SPACE_WIDTH - currentState.pos < 0.05:
+            return [ActionType.ACT_NONE, ActionType.ACT_LEFT]
+
+        return [ActionType.ACT_NONE, ActionType.ACT_RIGHT, ActionType.ACT_LEFT]
+
     def get_positive_angle(self, angle):
         positiveAngle = 0
         if angle < 0:
@@ -141,7 +198,8 @@ class LearningEngine:
 
     def show(self):
         for key in self.Q.keys():
-            print "(" + str(key[0].angle * config.DEGREE_STEP) + ", " + str(key[0].pos) + ") action: " + str(key[1]) + " --- Q: " + str(self.Q[key])
+            print "(" + str(key[0].angle * config.DEGREE_STEP) + ", " + str(key[0].pos) + ") action: " + str(
+                    key[1]) + " --- Q: " + str(self.Q[key])
 
     def log_start_episode(self, episodeNum):
         print "\nStart Learning new episode(" + str(episodeNum) + "/" + str(self.episode_num) + ")"
