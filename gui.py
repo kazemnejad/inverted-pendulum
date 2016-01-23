@@ -37,7 +37,7 @@ class GUI:
 
         # Calculate drawn area width, height, x and y
         self.daWitdh = self.screen.get_size()[0]
-        self.daHeight = self.screen.get_size()[1] - (self.asphalt.get_size()[1] + self.sky.get_size()[1])
+        self.daHeight = self.screen.get_size()[1] - (self.sky.get_size()[1])
         self.daX = 0
         self.daY = self.sky.get_size()[1]
         self.daRect = pygame.Rect(self.daX,
