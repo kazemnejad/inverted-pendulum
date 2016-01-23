@@ -10,7 +10,7 @@ class Pendulum:
         self.length = config.PENDULUM["length"]
         try:
             self.main_drawable = (pygame.image.load(os.path.join(config.PENDULUM["main_drawable"]))).convert()
-            self.rod_drawable = (pygame.image.load(os.path.join(config.PENDULUM["handle_drawable"]))).convert()
+            self.rod_drawable = (pygame.image.load(os.path.join(config.PENDULUM["handle_drawable"]))).convert_alpha()
         except Exception:
             self.main_drawable = None
             self.rod_drawable = None
