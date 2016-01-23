@@ -8,7 +8,6 @@ PENDULUM = {
     "mass": 1,
     "length": 0.8,
     "main_drawable": "drawable/pendulum.png",
-    "handle_drawable": "drawable/kirekhar.png"
 }
 CART = {
     "mass": 50,
@@ -39,4 +38,4 @@ U_S = 0.5
 U_K = 0.3
 Time = 0.001
 U_air = 0.1
-ROD_COLOR=(100,100,100)
+ROD_COLOR = (108, 0, 255)
