@@ -79,6 +79,7 @@ class LearningEngine:
                 # calculate q for current state
                 if not currentState in self.Q:
                     self.Q[currentState] = {}
+
                 q = self.Q[currentState].get(randomAction, config.DEFAULT_Q)
                 self.Q[currentState][randomAction] = q + config.Q_ALPHA * (reward + config.Q_GAMMA * maxQ - q)
 
