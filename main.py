@@ -17,7 +17,7 @@ def get_args():
             '-c', '--clean-learning-data', help='backup current learned data and create new one',
             required=False, action='store_true')
     parser.add_argument(
-            '-s', '--show-learning-data', help='show learned data',
+            '-s', '--show-learned-data', help='show learned data',
             required=False, action='store_true')
     parser.add_argument(
             '-g', '--enable-gui', help='enable gui while learning',
