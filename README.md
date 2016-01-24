@@ -15,7 +15,7 @@ This project contains physic simulation of environment and solving the inverted 
  
     ```
     $ git clone https://github.com/kazemnejad/inverted-pendulum.git
-    $ cd /path/to/project 
+    $ cd inverted-pendulum 
     $ python main.py
     ```
     
