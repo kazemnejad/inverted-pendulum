@@ -13,9 +13,11 @@ This project contains physic simulation of environment and solving the inverted 
  
  - launch:
  
-    `$ cd /path/to/project`
-    
-    `$ python main.py`
+    ```
+    $ git clone https://github.com/kazemnejad/inverted-pendulum.git
+    $ cd /path/to/project 
+    $ python main.py
+    ```
     
     
     
