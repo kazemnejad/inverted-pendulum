@@ -73,38 +73,19 @@ class GUI:
         cartX = cart.pos * self.kX - cart.drawable.get_size()[0] / 2
         cartY = screenY - self.asphalt.get_size()[1] - cart.drawable.get_size()[1]
 
-        # calculate rod position
-        #rodX = cart.pos * self.kX - pendulum.rod_drawable.get_size()[0] / 2
-        #rodY = cartY - pendulum.rod_drawable.get_size()[1] + 1
-
-        angle = radians(pendulum.angle); cosp = cos(angle); sinp = sin(angle)
-        '''
-        cx = pendulum.rod_drawable.get_size()[0] / 2
-        cy = pendulum.rod_drawable.get_size()[1] / 2
-
-        rotatedRodX = rodX + cx - cx * cosp - cy * sinp + min(cosp, 0) * cx * 2 + min(sinp, 0) * cy * 2 - cy * sinp
-        rotatedRodY = rodY + cy * 2 * (1 - cosp)
-'''
         # calculate pendulum position
+        angle = radians(pendulum.angle); cosp = cos(angle); sinp = sin(angle)
 
         poviotX=cart.pos*self.kX
         poviotY=cartY
         pendulumX=poviotX-100*sinp
         pendulumY=poviotY-100*cosp
-        #pendulumX = cart.pos * self.kX - pendulum.main_drawable.get_size()[0]/2 - cy * 2 * sinp
-        #pendulumY = cartY - pendulum.main_drawable.get_size()[1]/2 - cy * 2 * cosp
+
         # draw the on the screen
         self.screen.blit(self.asphalt, (0, screenY - self.asphalt.get_size()[1]))
         self.screen.blit(cart.drawable, (cartX, cartY))
         pygame.draw.line(self.screen, config.ROD_COLOR, [poviotX, poviotY], [pendulumX,pendulumY], 7)
-        # self.screen.blit(pygame.transform.rotate(pendulum.rod_drawable, pendulum.angle), (rotatedRodX, rotatedRodY))
         self.screen.blit(pendulum.main_drawable, (pendulumX - pendulum.main_drawable.get_size()[0]/2, pendulumY -pendulum.main_drawable.get_size()[1]/2))
-        '''
-        pendulumX = cart.pos * self.kX - pendulum.main_drawable.get_size()[0]/2 - cy * 2 * sinp
-        pendulumY = cartY - pendulum.main_drawable.get_size()[1]/2 - cy * 2 * cosp
-        self.screen.blit(pygame.transform.rotate(pendulum.rod_drawable, pendulum.angle), (rotatedRodX, rotatedRodY))
-        self.screen.blit(pendulum.main_drawable, (pendulumX, pendulumY))
-        self.screen.blit(cart.drawable, (cartX, cartY)) '''
 
     def get_action(self):
         for event in pygame.event.get():

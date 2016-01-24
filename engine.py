@@ -95,49 +95,6 @@ class LearningEngine:
             self.log_ending_episode(i + 1)
             self.save_learned_data()
 
-    def run1(self):
-        for i in range(self.episode_num):
-            self.log_start_episode(i + 1)
-
-            # init with random state
-            self.wm.reset_with_random_state()
-
-            while True:
-                if self.is_gui_enable:
-                    self.gui.draw()
-
-                # get current world state
-                currentState = self.wm.get_current_state().get_discrete_state()
-
-                # select a random action
-                randomAction = random.choice(ActionType.ALL_ACTIONS)
-
-                # compute next world state but not updating it
-                nextState = self.wm.compute_next_state(randomAction).get_discrete_state()
-
-                # calculated reward base on current state
-                reward = self.calculate_reward()
-
-                # get max of Q for the next state and all possible action
-                maxQ = max([self.Q.get((nextState, action), config.DEFAULT_Q) for action in ActionType.ALL_ACTIONS])
-
-                # calculate q for current state
-                q = self.Q.get((currentState, randomAction), config.DEFAULT_Q)
-                self.Q[(currentState, randomAction)] = q + config.Q_ALPHA * (reward + config.Q_GAMMA * maxQ - q)
-
-                self.log_saving_new_q_value(i + 1, currentState, randomAction, reward,
-                                            self.Q[(currentState, randomAction)],
-                                            nextState)
-
-                # update the world with next state
-                self.wm.update(randomAction)
-
-                if self.is_episode_finished():
-                    break
-
-            self.log_ending_episode(i + 1)
-            self.save_learned_data()
-
     def calculate_reward(self):
         state = self.wm.get_current_state()
         positiveAngle = self.get_positive_angle(state.angle)

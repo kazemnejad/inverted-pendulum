@@ -1,5 +1,4 @@
 import argparse
-import logging
 
 from engine import *
 
@@ -18,10 +17,10 @@ def get_args():
             '-c', '--clean-learning-data', help='backup current learned data and create new one',
             required=False, action='store_true')
     parser.add_argument(
-            '-s', '--show-learning-data', help='backup current learned data and create new one',
+            '-s', '--show-learning-data', help='show learned data',
             required=False, action='store_true')
     parser.add_argument(
-            '-g', '--enable-gui', help='backup current learned data and create new one',
+            '-g', '--enable-gui', help='enable gui while learning',
             required=False, action='store_true', default=False)
 
     return parser.parse_args()
